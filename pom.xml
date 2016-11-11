@@ -30,7 +30,7 @@
 		</dependencies>
 	</dependencyManagement>
 
-<>
+<profiles>
 		<profile>
 			<id>spring</id>
 			<repositories>
@@ -95,4 +95,4 @@
 			</pluginRepositories>
 		</profile>
 	</profiles>
-project>
+</project>
