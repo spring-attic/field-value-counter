@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>field-value-counter-app-dependencies</artifactId>
-    <version>1.1.0.BUILD-SNAPSHOT</version>
+    <version>1.1.0.RC1</version>
     <packaging>pom</packaging>
     <name>field-value-counter-app-dependencies</name>
     <description>Spring Cloud Stream Field Value Counter App Dependencies</description>
@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.cloud.stream.app</groupId>
         <artifactId>app-starters-core-dependencies</artifactId>
-        <version>1.1.0.BUILD-SNAPSHOT</version>
+        <version>1.1.0.RC1</version>
     </parent>
 
     <properties>
@@ -23,12 +23,12 @@
             <dependency>
                 <groupId>org.springframework.cloud.stream.app</groupId>
                 <artifactId>spring-cloud-starter-stream-sink-field-value-counter</artifactId>
-                <version>1.1.0.BUILD-SNAPSHOT</version>
+                <version>1.1.0.RC1</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud.stream.app</groupId>
                 <artifactId>field-value-counter-app-starters-test-support</artifactId>
-                <version>1.1.0.BUILD-SNAPSHOT</version>
+                <version>1.1.0.RC1</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.analytics</groupId>
