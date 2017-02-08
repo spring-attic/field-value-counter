@@ -31,9 +31,7 @@ import org.junit.runner.RunWith;
 
 import org.springframework.analytics.metrics.FieldValueCounterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.cloud.stream.annotation.Bindings;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.stream.app.test.redis.RedisTestSupport;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.Message;
@@ -47,8 +45,7 @@ import org.springframework.tuple.TupleBuilder;
  * @author Ilayaperumal Gopinathan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = TestFieldValueCounterSinkApplication.class)
-@WebIntegrationTest({"server.port:-1", "field-value-counter.name:FVCounter", "field-value-counter.fieldName:test"})
+@SpringBootTest({"server.port:-1", "field-value-counter.name:FVCounter", "field-value-counter.fieldName:test"})
 @DirtiesContext
 public class FieldValueCounterSinkTests {
 
@@ -58,7 +55,6 @@ public class FieldValueCounterSinkTests {
 	private static final String FVC_NAME = "FVCounter";
 
 	@Autowired
-	@Bindings(FieldValueCounterSinkConfiguration.class)
 	private Sink sink;
 
 	@Autowired

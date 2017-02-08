@@ -35,6 +35,12 @@
                 <groupId>org.springframework.analytics</groupId>
                 <artifactId>spring-analytics</artifactId>
                 <version>${spring-analytics.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+				</exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
