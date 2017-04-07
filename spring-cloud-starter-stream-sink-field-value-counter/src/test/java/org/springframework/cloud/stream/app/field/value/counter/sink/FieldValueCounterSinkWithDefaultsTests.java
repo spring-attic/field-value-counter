@@ -15,9 +15,6 @@
  */
 package org.springframework.cloud.stream.app.field.value.counter.sink;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,20 +24,24 @@ import org.junit.runner.RunWith;
 import org.springframework.analytics.metrics.FieldValueCounterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.stream.annotation.Bindings;
 import org.springframework.cloud.stream.app.test.redis.RedisTestSupport;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Ilayaperumal Gopinathan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest({"server.port:-1", "field-value-counter.fieldName:test"})
+@SpringBootTest({"server.port:-1", "field-value-counter.fieldName:test", "spring.metrics.export.includes:"})
 @DirtiesContext
+@TestPropertySource(properties = "spring.application.name:field-value-counter")
 public class FieldValueCounterSinkWithDefaultsTests {
 
 	@Rule
