@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,31 @@
 
 package org.springframework.cloud.stream.app.field.value.counter.sink;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.expression.Expression;
 import org.springframework.expression.common.LiteralExpression;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
-
 /**
  * @author Ilayaperumal Gopinathan
  * @author Gary Russell
+ * @author Artem Bilan
  */
 @ConfigurationProperties("field-value-counter")
 @Validated
 public class FieldValueCounterSinkProperties {
 
-	private String fieldName;
 	/**
-	 * The default name of the counter
+	 * The field name to extract for the counter.
+	 */
+	private String fieldName;
+
+	/**
+	 * The default name of the counter.
 	 */
 	@Value("${spring.application.name:field-value-counter}")
 	private String defaultName;

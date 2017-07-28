@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 the original author or authors.
+ * Copyright 2015-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import org.springframework.analytics.metrics.FieldValueCounterWriter;
 import org.springframework.beans.BeanWrapper;
@@ -42,10 +45,13 @@ import org.springframework.util.StringUtils;
  * @author Mark Fisher
  * @author Ilayaperumal Gopinathan
  * @author Gary Russell
+ * @author Artem Bilan
  */
 @EnableBinding(Sink.class)
 @Import(FieldValueCounterSinkStoreConfiguration.class)
 public class FieldValueCounterSinkConfiguration {
+
+	private static final Log log = LogFactory.getLog(FieldValueCounterSinkConfiguration.class);
 
 	@Autowired
 	private FieldValueCounterSinkProperties fvcSinkProperties;
@@ -55,7 +61,7 @@ public class FieldValueCounterSinkConfiguration {
 
 	private final JsonToTupleTransformer jsonToTupleTransformer = new JsonToTupleTransformer();
 
-	@ServiceActivator(inputChannel=Sink.INPUT)
+	@ServiceActivator(inputChannel = Sink.INPUT)
 	public void process(Message<?> message) {
 		Object payload = message.getPayload();
 		if (payload instanceof String) {
@@ -75,10 +81,34 @@ public class FieldValueCounterSinkConfiguration {
 	}
 
 	private void processPojo(String counterName, Object payload) {
-		BeanWrapper beanWrapper = new BeanWrapperImpl(payload);
-		if (beanWrapper.isReadableProperty(fvcSinkProperties.getFieldName())) {
-			Object value = beanWrapper.getPropertyValue(fvcSinkProperties.getFieldName());
+		String fieldName = this.fvcSinkProperties.getFieldName();
+
+		Object value = null;
+		if (payload instanceof Map) {
+			Map map = (Map) payload;
+			if (map.containsKey(fieldName)) {
+				value = map.get(fieldName);
+			}
+			else {
+				log.error("The property '" + fieldName + "' is not available in the payload: " + payload);
+			}
+		}
+		else {
+			BeanWrapper beanWrapper = new BeanWrapperImpl(payload);
+
+			if (beanWrapper.isReadableProperty(fieldName)) {
+				value = beanWrapper.getPropertyValue(fieldName);
+			}
+			else {
+				log.error("The property '" + fieldName + "' is not available in the payload: " + payload);
+			}
+		}
+
+		if (value != null) {
 			processValue(counterName, value);
+		}
+		else {
+			log.info("The value for the property '" + fieldName + "' in the payload '" + payload + "' is null. Ignored");
 		}
 	}
 
@@ -112,6 +142,10 @@ public class FieldValueCounterSinkConfiguration {
 				path = Arrays.copyOfRange(path, 1, path.length);
 				processValueForCounter(counterName, result, path);
 			}
+		}
+		else {
+			log.info("The value for the property '" + Arrays.toString(path) + "' in the payload '" +
+					value + "' is null. Ignored");
 		}
 	}
 

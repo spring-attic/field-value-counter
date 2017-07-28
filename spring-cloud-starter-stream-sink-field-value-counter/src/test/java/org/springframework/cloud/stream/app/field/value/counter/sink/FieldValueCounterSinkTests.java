@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2015-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.cloud.stream.app.field.value.counter.sink;
 
 import static org.junit.Assert.assertEquals;
@@ -43,9 +44,13 @@ import org.springframework.tuple.TupleBuilder;
 
 /**
  * @author Ilayaperumal Gopinathan
+ * @author Artem Bilan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest({"server.port:-1", "field-value-counter.name:FVCounter", "field-value-counter.fieldName:test"})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
+		properties = {
+				"field-value-counter.name:FVCounter",
+				"field-value-counter.fieldName:test" })
 @DirtiesContext
 public class FieldValueCounterSinkTests {
 
@@ -149,6 +154,20 @@ public class FieldValueCounterSinkTests {
 		assertEquals(1, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("{test2=Hi}").longValue());
 	}
 
+	@Test
+	public void testMapPayloadFieldName() {
+		Map<String, String> map = new HashMap<>();
+		map.put("test", "Hello");
+		Message<Map<String, String>> message = MessageBuilder.withPayload(map).build();
+		sink.input().send(message);
+		assertEquals(1,
+				this.fieldValueCounterRepository.findOne(FVC_NAME)
+						.getFieldValueCounts()
+						.get("Hello")
+						.longValue());
+	}
+
+
 	private class TestPojoList {
 
 		private List<String> test;
@@ -164,6 +183,7 @@ public class FieldValueCounterSinkTests {
 	}
 
 	private class TestPojoTuple {
+
 		private Tuple test;
 
 		public Tuple getTest() {
@@ -187,5 +207,7 @@ public class FieldValueCounterSinkTests {
 		public void setTest(Map<String, String> test) {
 			this.test = test;
 		}
+
 	}
+
 }
