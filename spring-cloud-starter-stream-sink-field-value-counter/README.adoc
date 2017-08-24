@@ -11,12 +11,24 @@ A field value counter is a Metric used for counting occurrences of unique values
 
 === Payload
 
-This sinks supports the following payload types out of the box:
-
 * `POJO (Java bean)`
 * `Map`
-* `Tuple`
+
+=== Headers
+
+`content-type: text/plain`
+
+=== Payload
+
 * `JSON String`
+
+=== Headers
+
+`content-type: application/x-spring-tuple`
+
+=== Payload
+
+* `Tuple`
 
 For example suppose a message source produces a payload with a field named _user_ :
 
@@ -77,9 +89,9 @@ $$spring.redis.url$$:: $$Redis url, which will overrule host, port and password 
 ```
 $ ./mvnw clean install -PgenerateApps
 $ cd apps
-
+```
 You can find the corresponding binder based projects here. You can then cd into one one of the folders and build it:
-
+```
 $ ./mvnw clean package
 ```
 
