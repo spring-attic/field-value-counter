@@ -82,8 +82,6 @@ $$spring.redis.timeout$$:: $$Connection timeout in milliseconds.$$ *($$Integer$$
 $$spring.redis.url$$:: $$Redis url, which will overrule host, port and password if set.$$ *($$String$$, default: `$$<none>$$`)*
 //end::configuration-properties[]
 
-//end::ref-doc[]
-
 == Build
 
 ```
@@ -100,3 +98,4 @@ $ ./mvnw clean package
 ```
 java -jar field-value-counter-sink.jar --fieldName=<field-name> --name=<name of the counter>
 ```
+//end::ref-doc[]
