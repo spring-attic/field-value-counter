@@ -77,9 +77,10 @@ $$spring.redis.database$$:: $$Database index used by the connection factory.$$ *
 $$spring.redis.host$$:: $$Redis server host.$$ *($$String$$, default: `$$localhost$$`)*
 $$spring.redis.password$$:: $$Login password of the redis server.$$ *($$String$$, default: `$$<none>$$`)*
 $$spring.redis.port$$:: $$Redis server port.$$ *($$Integer$$, default: `$$6379$$`)*
-$$spring.redis.ssl$$:: $$Enable SSL.$$ *($$Boolean$$, default: `$$false$$`)*
-$$spring.redis.timeout$$:: $$Connection timeout in milliseconds.$$ *($$Integer$$, default: `$$0$$`)*
-$$spring.redis.url$$:: $$Redis url, which will overrule host, port and password if set.$$ *($$String$$, default: `$$<none>$$`)*
+$$spring.redis.ssl$$:: $$Whether to enable SSL support.$$ *($$Boolean$$, default: `$$false$$`)*
+$$spring.redis.timeout$$:: $$Connection timeout.$$ *($$Duration$$, default: `$$<none>$$`)*
+$$spring.redis.url$$:: $$Connection URL. Overrides host, port, and password. User is ignored. Example:
+ redis://user:password@example.com:6379$$ *($$String$$, default: `$$<none>$$`)*
 //end::configuration-properties[]
 
 == Build
