@@ -46,6 +46,7 @@ import org.springframework.util.StringUtils;
  * @author Ilayaperumal Gopinathan
  * @author Gary Russell
  * @author Artem Bilan
+ * @author Glenn Renfro
  */
 @EnableBinding(Sink.class)
 @Import(FieldValueCounterSinkStoreConfiguration.class)
@@ -64,9 +65,10 @@ public class FieldValueCounterSinkConfiguration {
 	@ServiceActivator(inputChannel = Sink.INPUT)
 	public void process(Message<?> message) {
 		Object payload = message.getPayload();
-		if (payload instanceof String) {
+		if (payload instanceof byte[]) {
 			try {
-				payload = jsonToTupleTransformer.transformPayload(payload.toString());
+				String stringPayload = new String((byte[])payload, "UTF-8");
+				payload = jsonToTupleTransformer.transformPayload(stringPayload);
 			}
 			catch (Exception e) {
 				throw new MessageTransformationException(message, e.getMessage(), e);

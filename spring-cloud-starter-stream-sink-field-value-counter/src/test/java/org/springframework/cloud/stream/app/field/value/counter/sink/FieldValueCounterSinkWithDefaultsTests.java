@@ -37,6 +37,7 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Ilayaperumal Gopinathan
+ * @author Glenn Renfro
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest({"server.port:-1", "field-value-counter.fieldName:test", "spring.metrics.export.includes:"})
@@ -65,11 +66,11 @@ public class FieldValueCounterSinkWithDefaultsTests {
 	@Test
 	public void testFieldNameIncrement() {
 		assertNotNull(this.sink.input());
-		Message<String> message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
+		Message<byte[]> message = MessageBuilder.withPayload("{\"test\": \"Hi\"}".getBytes()).build();
 		sink.input().send(message);
-		message = MessageBuilder.withPayload("{\"test\": \"Hello\"}").build();
+		message = MessageBuilder.withPayload("{\"test\": \"Hello\"}".getBytes()).build();
 		sink.input().send(message);
-		message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
+		message = MessageBuilder.withPayload("{\"test\": \"Hi\"}".getBytes()).build();
 		sink.input().send(message);
 		assertEquals(2, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("Hi").longValue());
 		assertEquals(1, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("Hello").longValue());
