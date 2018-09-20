@@ -74,11 +74,11 @@ public class FieldValueCounterSinkTests {
 	@Test
 	public void testFieldNameIncrement() {
 		assertNotNull(this.sink.input());
-		Message<String> message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
+		Message<byte[]> message = MessageBuilder.withPayload("{\"test\": \"Hi\"}".getBytes()).build();
 		sink.input().send(message);
-		message = MessageBuilder.withPayload("{\"test\": \"Hello\"}").build();
+		message = MessageBuilder.withPayload("{\"test\": \"Hello\"}".getBytes()).build();
 		sink.input().send(message);
-		message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
+		message = MessageBuilder.withPayload("{\"test\": \"Hi\"}".getBytes()).build();
 		sink.input().send(message);
 		assertEquals(2, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("Hi").longValue());
 		assertEquals(1, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("Hello").longValue());
@@ -87,9 +87,9 @@ public class FieldValueCounterSinkTests {
 	@Test
 	public void testFieldNameDecrement() {
 		assertNotNull(this.sink.input());
-		Message<String> message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
+		Message<byte[]> message = MessageBuilder.withPayload("{\"test\": \"Hi\"}".getBytes()).build();
 		sink.input().send(message);
-		message = MessageBuilder.withPayload("{\"test\": \"Hi\"}").build();
+		message = MessageBuilder.withPayload("{\"test\": \"Hi\"}".getBytes()).build();
 		sink.input().send(message);
 		assertEquals(2, this.fieldValueCounterRepository.findOne(FVC_NAME).getFieldValueCounts().get("Hi").longValue());
 		this.fieldValueCounterRepository.decrement(FVC_NAME, "Hi", 2);
