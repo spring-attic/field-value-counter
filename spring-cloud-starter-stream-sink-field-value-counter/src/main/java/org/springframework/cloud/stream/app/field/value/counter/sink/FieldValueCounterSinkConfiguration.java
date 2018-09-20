@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 the original author or authors.
+ * Copyright 2015-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +46,7 @@ import org.springframework.util.StringUtils;
  * @author Ilayaperumal Gopinathan
  * @author Gary Russell
  * @author Artem Bilan
+ * @author Christian Tzolov
  */
 @EnableBinding(Sink.class)
 @Import(FieldValueCounterSinkStoreConfiguration.class)
@@ -64,9 +65,9 @@ public class FieldValueCounterSinkConfiguration {
 	@ServiceActivator(inputChannel = Sink.INPUT)
 	public void process(Message<?> message) {
 		Object payload = message.getPayload();
-		if (payload instanceof String) {
+		if (payload instanceof byte[]) {
 			try {
-				payload = jsonToTupleTransformer.transformPayload(payload.toString());
+				payload = jsonToTupleTransformer.transformPayload(new String((byte[]) payload, "UTF-8"));
 			}
 			catch (Exception e) {
 				throw new MessageTransformationException(message, e.getMessage(), e);
@@ -165,6 +166,5 @@ public class FieldValueCounterSinkConfiguration {
 	protected String computeMetricName(Message<?> message) {
 		return fvcSinkProperties.getComputedNameExpression().getValue(message, CharSequence.class).toString();
 	}
-
 
 }
