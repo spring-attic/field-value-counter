@@ -50,9 +50,6 @@
 							<extraTestConfigClass>org.springframework.cloud.stream.app.test.fieldvaluecounter.FieldValueCounterSinkTestConfiguration.class</extraTestConfigClass>
 						</field-value-counter-sink>
 					</generatedApps>
-					<additionalAppProperties>
-						<additionalAppProperty>spring.cloud.stream.bindings.input.contentType=text/plain</additionalAppProperty>
-					</additionalAppProperties>
 				</configuration>
 			</plugin>
 		</plugins>
