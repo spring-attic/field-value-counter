@@ -1,5 +1,11 @@
 # Field Value Counter Sink
 
+## Important Announcement - EOL Notice
+
+This repository is deprecated as of Einstein.RELEASE. 
+Please use modules from the 
+https://github.com/spring-cloud-stream-app-starters/analytics[analytics repository] instead.
+
 To learn more about this application and the supported properties, please review the following link.
 
 include::spring-cloud-starter-stream-sink-field-value-counter/README.adoc[]
